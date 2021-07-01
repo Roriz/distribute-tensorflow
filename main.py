@@ -9,13 +9,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Configs
-per_worker_batch_size = 64
-epochs = 1
-
+per_worker_batch_size = 15
+epochs = 2
 tf_config = json.loads(os.environ['TF_CONFIG'])
 num_workers = len(tf_config['cluster']['worker'])
 current_worker = tf_config['task']['index']
-epochs_per_worker = epochs // num_workers
+# epochs_per_worker = epochs // num_workers
 
 # Distribute details
 strategy = tf.distribute.MultiWorkerMirroredStrategy()
@@ -33,7 +32,7 @@ with strategy.scope():
 
 # Training
 earlystop = EarlyStopping(patience=10)
-learning_rate_reduction = ReduceLROnPlateau(monitor='val_acc', patience=2, verbose=1, factor=0.5, min_lr=0.00001)
+learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy', patience=2, verbose=1, factor=0.5, min_lr=0.00001)
 
 history = multi_worker_model.fit(
     train_generator, 
@@ -59,6 +58,8 @@ ax2.set_xticks(np.arange(1, epochs, 1))
 
 legend = plt.legend(loc='best', shadow=True)
 plt.tight_layout()
+plt.show()
 
 fig = plt.figure()
+plt.plot(range(10))
 fig.savefig('result/work' + str(current_worker) + '.png', dpi=fig.dpi)
