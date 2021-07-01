@@ -1,2 +1,4 @@
 input/test1
 input/train
+
+__pycache__/

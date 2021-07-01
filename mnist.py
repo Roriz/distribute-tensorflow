@@ -30,9 +30,6 @@ def mnist_df():
   return train_df, validate_df
 
 def mnist_generators(train_df, validate_df, batch_size):  
-  total_train = train_df.shape[0]
-  total_validate = validate_df.shape[0]
-
   train_datagen = ImageDataGenerator(
     rotation_range=15,
     rescale=1./255,
