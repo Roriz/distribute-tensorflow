@@ -10,7 +10,7 @@ import numpy as np
 
 # Configs
 per_worker_batch_size = 15
-epochs = 2
+epochs = 4
 tf_config = json.loads(os.environ['TF_CONFIG'])
 num_workers = len(tf_config['cluster']['worker'])
 current_worker = tf_config['task']['index']
