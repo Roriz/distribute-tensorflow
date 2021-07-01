@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  worker0:
+    image: gcr.io/kaggle-images/python
+    command: bash -c "python3 main.py"
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+      - /etc/sudoers.d:/etc/sudoers.d:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      TF_CONFIG: '{"cluster": {"worker": ["172.17.0.1:12345", "172.17.0.1:12346"]}, "task": {"type": "worker", "index": 0} }'
+    ports:
+      - 12345:12345
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+
+  worker1:
+    image: gcr.io/kaggle-images/python
+    command: bash -c "python3 main.py"
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+      - /etc/sudoers.d:/etc/sudoers.d:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      TF_CONFIG: '{"cluster": {"worker": ["172.17.0.1:12345", "172.17.0.1:12346"]}, "task": {"type": "worker", "index": 1} }'
+    ports:
+      - 12346:12346
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+
